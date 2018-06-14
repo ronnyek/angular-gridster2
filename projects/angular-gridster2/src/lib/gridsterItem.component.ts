@@ -1,4 +1,16 @@
-import {Component, ElementRef, Host, Input, NgZone, OnDestroy, OnInit, Renderer2, ViewEncapsulation} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Host,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewEncapsulation
+} from '@angular/core';
 
 import {GridsterItem} from './gridsterItem.interface';
 import {GridsterDraggable} from './gridsterDraggable.service';
@@ -26,6 +38,9 @@ export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemCom
   resize: GridsterResizable;
   notPlaced: boolean;
   init: boolean;
+
+  @Output()
+  resized: EventEmitter<any> = new EventEmitter<GridsterItemComponent>();
 
   constructor(el: ElementRef, @Host() gridster: GridsterComponent, public renderer: Renderer2, private zone: NgZone) {
     this.el = el.nativeElement;
@@ -102,6 +117,7 @@ export class GridsterItemComponent implements OnInit, OnDestroy, GridsterItemCom
       if (this.gridster.options.itemResizeCallback) {
         this.gridster.options.itemResizeCallback(this.item, this);
       }
+      this.resized.emit(this);
     }
     this.top = top;
     this.left = left;

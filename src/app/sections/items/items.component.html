@@ -69,7 +69,7 @@
 
 
 <gridster [options]="options">
-  <gridster-item [item]="item" *ngFor="let item of dashboard">
+  <gridster-item [item]="item" *ngFor="let item of dashboard" (resized)="onResize($event, item)">
     <div class="button-holder">
       <button mat-mini-fab (mousedown)="removeItem($event, item)"
               (touchstart)="removeItem($event, item)">
